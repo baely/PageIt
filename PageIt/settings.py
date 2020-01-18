@@ -25,7 +25,7 @@ SECRET_KEY = 'y4t(xke7#t1t-_ys3qh$e85@u2y2#0xjks&)hurt^5ighaqn3@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["park--it.azurewebsites.net"]
 
 
 # Application definition
