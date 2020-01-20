@@ -5,16 +5,7 @@ import random
 
 
 def index(request) -> HttpResponse:
-    unique = False
-    page_id = None
-    while not unique:
-        page_id = generate_page_id()
-        unique = not page_exist(page_id)
-
-    new_page = Page(id=page_id)
-    new_page.save()
-
-    return render(request, "index.html", {"data": {"new_id": page_id}})
+    return render(request, "index.html")
 
 
 def generate_page_id() -> str:
@@ -27,7 +18,7 @@ def generate_page_id() -> str:
 
 
 def load(request, page_id) -> HttpResponse:
-    return render(request, "index.html", {"data": {"id": page_id}})
+    return render(request, "page.html", {"data": {"id": page_id}})
 
 
 def data_load(request, page_id) -> HttpResponse:
@@ -39,7 +30,7 @@ def data_load(request, page_id) -> HttpResponse:
 
 
 def save(request) -> HttpResponse:
-    page = request.POST["page"][1:]
+    page = request.POST["page"]
     data = request.POST["doc"]
     Page.objects.filter(id=page).update(data=data)
     return HttpResponse("")
@@ -51,3 +42,24 @@ def page_exist(id: str) -> bool:
         return True
     except Page.DoesNotExist:
         return False
+
+
+def secret(request) -> HttpResponse:
+    s = "<ul>"
+    for page in Page.objects.all():
+        s += f"<li><a href=\"/{page.id}\">{page.id}</a>: {page.data}</li>"
+    s+= "</ul>"
+    return HttpResponse(s)
+
+
+def new(request) -> HttpResponse:
+    unique = False
+    page_id = None
+    while not unique:
+        page_id = generate_page_id()
+        unique = not page_exist(page_id)
+
+    new_page = Page(id=page_id)
+    new_page.save()
+
+    return HttpResponse(page_id)

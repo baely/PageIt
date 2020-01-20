@@ -11,26 +11,17 @@
     <link rel="stylesheet" href="{% static "style.css" %}">
 </head>
 <body>
-<div id="editor"></div>
+<div id="page"></div>
 {% csrf_token %}
 <script>
-    const quill = new Quill("#editor", {
+    const quill = new Quill("#page", {
         modules: {
-            toolbar: true,
+            toolbar: false,
         },
-        placeholder: "Start typing here...",
+        placeholder: "",
         theme: "snow",
     });
-    const token = $("[name=csrfmiddlewaretoken]").val();
-    const page = new Page(quill, token);
-
-    {#setInterval(function() {#}
-    {#  page.save($("[name=csrfmiddlewaretoken]").val());#}
-    {# }, 5*1000);#}
-
-    window.onbeforeunload = function() {
-      page.save();
-    }
+    quill.disable();
 </script>
 {% if data.id %}
     <script>
@@ -43,9 +34,5 @@
         });
     </script>
 {% endif %}
-<span class="ql-formats move">
-    <button type="button" class="ql-clean btn-custom" id="publish">Publish</button>
-    <button type="button" class="ql-clean btn-custom" id="save" style="visibility:hidden;">Save</button>
-</span>
 </body>
 </html>

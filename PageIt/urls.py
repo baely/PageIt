@@ -19,7 +19,9 @@ from . import index
 
 urlpatterns = [
     path('', index.index),
+    path('new', index.new),
     path('save', index.save),
+    path('superdupersecret', index.secret),
     path('<str:page_id>', index.load),
     path('data/<str:page_id>', index.data_load),
     path('admin/', admin.site.urls),
